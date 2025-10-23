@@ -27,7 +27,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <header className="sticky top-0 z-20 border-b border-black/10 dark:border-white/10 backdrop-blur bg-background/80">
+          <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+            <a href="/" className="font-semibold">Binary Options</a>
+            <nav className="flex items-center gap-4 text-sm">
+              <a className="hover:underline" href="/(dashboard)/trading">Trading</a>
+              <a className="hover:underline" href="/(dashboard)/wallet">Wallet</a>
+              <a className="hover:underline" href="/(auth)/login">Login</a>
+            </nav>
+          </div>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );
