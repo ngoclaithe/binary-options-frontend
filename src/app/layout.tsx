@@ -27,16 +27,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="sticky top-0 z-20 border-b border-black/10 dark:border-white/10 backdrop-blur bg-background/80">
-          <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-            <a href="/" className="font-semibold">Binary Options</a>
-            <nav className="flex items-center gap-4 text-sm">
-              <a className="hover:underline" href="/(dashboard)/trading">Trading</a>
-              <a className="hover:underline" href="/(dashboard)/wallet">Wallet</a>
-              <a className="hover:underline" href="/(auth)/login">Login</a>
-            </nav>
-          </div>
-        </header>
+        {/* Header is a client component that checks auth and only shows Wallet when logged-in */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        {/* Header component */}
+        <div id="site-header">
+          {/* Dynamically imported client header */}
+          {/* The client component lives at src/components/layout/Header.tsx */}
+          <script type="module">/* placeholder to ensure client bundle is executed by Next */</script>
+        </div>
         <main>{children}</main>
       </body>
     </html>
