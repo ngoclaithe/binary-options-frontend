@@ -31,11 +31,7 @@ export default function RootLayout({
         {/* Header is a client component that checks auth and only shows Wallet when logged-in */}
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         {/* Header component */}
-        <div id="site-header">
-          {/* Dynamically imported client header */}
-          {/* The client component lives at src/components/layout/Header.tsx */}
-          <script type="module">/* placeholder to ensure client bundle is executed by Next */</script>
-        </div>
+        <Header />
         <main>{children}</main>
       </body>
     </html>
