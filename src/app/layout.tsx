@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "../components/layout/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        {/* Header is a client component that checks auth and only shows Wallet when logged-in */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        {/* Header component */}
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );
