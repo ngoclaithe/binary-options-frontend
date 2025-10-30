@@ -2,7 +2,20 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { useAppDispatch } from "./useAppSelector";
+import {
+  setPriceUpdate,
+  setPriceError,
+  addConnectedSymbol,
+  removeConnectedSymbol,
+} from "../store/slices/priceSlice";
 import type { PriceData, PriceMap } from "../types/price.types";
+import {
+  SOCKET_URL,
+  SOCKET_NAMESPACE,
+  SOCKET_CONFIG,
+  SOCKET_EVENTS,
+} from "../constants/socket.constants";
 
 interface UsePriceFeedOptions {
   defaultSymbols?: string[];
@@ -13,62 +26,85 @@ export function usePriceFeed(options: UsePriceFeedOptions = {}) {
   const socketRef = useRef<Socket | null>(null);
   const [connected, setConnected] = useState(false);
   const [prices, setPrices] = useState<PriceMap>({});
+  const dispatch = useAppDispatch();
 
-  // Stable connect function
   const ensureSocket = useCallback(() => {
     if (socketRef.current) return socketRef.current;
 
-    // Connect to same-origin and rely on Next rewrites to proxy to backend
-    const socket = io("/price-feed", {
+    const socket = io(SOCKET_URL, {
       path: "/socket.io",
-      transports: ["websocket"],
-      withCredentials: true,
-      autoConnect: true,
+      ...SOCKET_CONFIG,
     });
 
-    socket.on("connect", () => setConnected(true));
-    socket.on("disconnect", () => setConnected(false));
+    socket.on(SOCKET_EVENTS.CONNECT, () => {
+      setConnected(true);
+    });
 
-    socket.on("price-update", (data: PriceData) => {
+    socket.on(SOCKET_EVENTS.DISCONNECT, () => {
+      setConnected(false);
+    });
+
+    socket.on(SOCKET_EVENTS.PRICE_UPDATE, (data: PriceData) => {
       setPrices((prev) => ({ ...prev, [data.symbol]: data }));
+      dispatch(setPriceUpdate(data));
+    });
+
+    socket.on(SOCKET_EVENTS.CONNECT_ERROR, (err: any) => {
+      console.error("Socket connection error:", err);
+      dispatch(setPriceError(err.message || "Connection error"));
     });
 
     socketRef.current = socket;
     return socket;
-  }, []);
+  }, [dispatch]);
 
-  const subscribe = useCallback((symbols: string[]) => {
-    const socket = ensureSocket();
-    if (!symbols?.length) return;
-    socket.emit("subscribe", { symbols });
-  }, [ensureSocket]);
+  const subscribe = useCallback(
+    (symbols: string[]) => {
+      const socket = ensureSocket();
+      if (!symbols?.length) return;
+      socket.emit(SOCKET_EVENTS.SUBSCRIBE, { symbols });
+      symbols.forEach((symbol) => dispatch(addConnectedSymbol(symbol)));
+    },
+    [ensureSocket, dispatch]
+  );
 
-  const unsubscribe = useCallback((symbols: string[]) => {
-    const socket = ensureSocket();
-    if (!symbols?.length) return;
-    socket.emit("unsubscribe", { symbols });
-  }, [ensureSocket]);
+  const unsubscribe = useCallback(
+    (symbols: string[]) => {
+      const socket = ensureSocket();
+      if (!symbols?.length) return;
+      socket.emit(SOCKET_EVENTS.UNSUBSCRIBE, { symbols });
+      symbols.forEach((symbol) => dispatch(removeConnectedSymbol(symbol)));
+    },
+    [ensureSocket, dispatch]
+  );
 
   useEffect(() => {
     const socket = ensureSocket();
     if (defaultSymbols.length) {
-      socket.emit("subscribe", { symbols: defaultSymbols });
+      socket.emit(SOCKET_EVENTS.SUBSCRIBE, { symbols: defaultSymbols });
+      defaultSymbols.forEach((symbol) => dispatch(addConnectedSymbol(symbol)));
     }
+
     return () => {
       if (socket) {
         try {
           if (defaultSymbols.length) {
-            socket.emit("unsubscribe", { symbols: defaultSymbols });
+            socket.emit(SOCKET_EVENTS.UNSUBSCRIBE, { symbols: defaultSymbols });
+            defaultSymbols.forEach((symbol) => {
+              dispatch(removeConnectedSymbol(symbol));
+            });
           }
-        } finally {
-          socket.disconnect();
+        } catch (e) {
+          console.error("Error during cleanup:", e);
         }
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, defaultSymbols]);
 
-  const list = useMemo(() => Object.values(prices).sort((a, b) => a.symbol.localeCompare(b.symbol)), [prices]);
+  const list = useMemo(
+    () => Object.values(prices).sort((a, b) => a.symbol.localeCompare(b.symbol)),
+    [prices]
+  );
 
   return { connected, prices, list, subscribe, unsubscribe };
 }
