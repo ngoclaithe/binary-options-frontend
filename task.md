@@ -1,32 +1,29 @@
-Task List — Binary Options Frontend
+# 🧭 Binary Options Frontend — Task Specification
 
-Mục tiêu: triển khai frontend cho hệ thống Binary Options (Next.js + TypeScript). Hỗ trợ 2 role: user và admin. Ứng dụng giao tiếp với backend và WebSocket theo schema đã cung cấp.
+## 🎯 Mục tiêu
+Triển khai frontend cho hệ thống **Binary Options** bằng **Next.js + TypeScript**, hỗ trợ 2 vai trò:
+- **User**: giao dịch, xem chart, quản lý ví
+- **Admin**: quản lý tài sản, người dùng, thống kê
 
-Tổng quan kỹ thuật
+---
 
-Framework: Next.js (App Router)
+## ⚙️ Tổng quan kỹ thuật
+- Framework: **Next.js (App Router)**
+- Ngôn ngữ: **TypeScript**
+- Styling: **TailwindCSS**
+- State: **Zustand**
+- Realtime: **Socket.IO**
+- Chart: **Recharts**
+- HTTP: **axios / fetch + interceptor**
+- Test: **Vitest + React Testing Library**
+- CI/CD: **GitHub Actions → Vercel**
 
-Language: TypeScript
+---
 
-Styling: TailwindCSS
+## 🔌 Realtime Price Feed
 
-State management: Zustand
-
-Realtime: Socket.IO (giá realtime, cập nhật orders, notifications)
-
-Charts: Recharts hoặc tương tự
-
-HTTP client: fetch / axios + interceptor
-
-Testing: Vitest + React Testing Library
-
-CI/CD: GitHub Actions + Vercel
-
-Realtime Price Feed mô tả chi tiết
-
-Khi frontend kết nối đến endpoint Socket.IO của backend, dữ liệu giá được stream theo cấu trúc sau.
-
-Code mẫu frontend:
+### Mẫu kết nối frontend
+```ts
 import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001/price-feed";
@@ -58,10 +55,8 @@ interface PriceData {
 const socket = socketIOClient(SERVER_URL, { transports: ["websocket"] });
 
 socket.on("connect", () => {
-  console.log("✅ Connected, id:", socket.id);
-  const symbols = ["BTCUSDT", "ETHUSDT"];
-  socket.emit("subscribe", { symbols });
-  console.log(`📩 Subscribed: ${symbols.join(", ")}`);
+  console.log("✅ Connected:", socket.id);
+  socket.emit("subscribe", { symbols: ["BTCUSDT", "ETHUSDT"] });
 });
 
 socket.on("price-update", (data: PriceData) => {
@@ -75,156 +70,121 @@ socket.on("disconnect", (reason) => {
 socket.on("connect_error", (err: any) => {
   console.error("⚠️ Connection error:", err.message);
 });
+```
 
-Response thực tế mẫu
+---
+
+### Mẫu dữ liệu thực tế
+```json
 {
   "symbol": "BTCUSDT",
   "minuteTimestamp": 1761815820000,
   "minuteTime": "2025-10-30T09:17:00.000Z",
   "summary": {
     "open": 110438.53,
-    "high": 110482.07782205,
-    "low": 110347.87671028,
-    "close": 110390.09755739,
-    "volume": 0.38228461
+    "high": 110482.08,
+    "low": 110347.87,
+    "close": 110390.09,
+    "volume": 0.382
   },
   "secondsData": [
     {
       "second": 0,
       "timestamp": 1761815820259,
       "time": "2025-10-30T09:17:00.259Z",
-      "price": 110445.29083111187,
+      "price": 110445.29,
       "open": 110438.53,
-      "high": 110445.99154052959,
-      "low": 110436.84643475925,
-      "close": 110445.29083111187,
-      "volume": 0.008301797365134773
-    },
-    {
-      "second": 1,
-      "timestamp": 1761815821259,
-      "time": "2025-10-30T09:17:01.259Z",
-      "price": 110428.613717716,
-      "open": 110416.10563335574,
-      "high": 110429.67018490874,
-      "low": 110414.61831205043,
-      "close": 110428.613717716,
-      "volume": 0.007638525579128543
+      "high": 110445.99,
+      "low": 110436.84,
+      "close": 110445.29,
+      "volume": 0.0083
     }
   ]
 }
+```
 
-Mô tả trường dữ liệu
-Trường	Kiểu	Mô tả
-symbol	string	Mã tài sản (ví dụ BTCUSDT)
-minuteTimestamp	number	Epoch ms của phút hiện tại
-minuteTime	string (ISO)	Thời điểm minute candle
-summary	object	Tổng hợp giá mở, cao, thấp, đóng, khối lượng của phút đó
-secondsData	array	Dữ liệu từng giây trong phút, phục vụ vẽ biểu đồ realtime
-secondsData[n].timestamp	number	Epoch ms của tick
-secondsData[n].price	number	Giá tại giây đó
-secondsData[n].volume	number	Khối lượng giao dịch tại giây
-Cách sử dụng frontend
+---
 
-Sau khi nhận sự kiện price-update, frontend cập nhật vào store useAssets hoặc useTrade.
+### Bảng mô tả dữ liệu
 
-Dữ liệu summary dùng để cập nhật candle 1 phút.
+| Trường | Kiểu | Mô tả |
+|--------|------|-------|
+| `symbol` | `string` | Mã tài sản (VD: BTCUSDT) |
+| `minuteTimestamp` | `number` | Epoch ms của phút hiện tại |
+| `minuteTime` | `string` | ISO time của candle phút |
+| `summary` | `object` | Giá mở, cao, thấp, đóng, volume |
+| `secondsData` | `array` | Từng tick giá theo giây |
+| `price` | `number` | Giá tại thời điểm đó |
+| `volume` | `number` | Khối lượng tại tick đó |
 
-Dữ liệu secondsData có thể render biểu đồ tick chart / line chart realtime.
+---
 
-Lưu ý khi triển khai
+### Cách dùng trong frontend
+- Lưu realtime data vào `useAssets` store (Zustand)
+- Render biểu đồ tick chart từ `secondsData`
+- Dùng `summary` để cập nhật candle 1 phút
 
-Giữ socket kết nối bền vững (retry với exponential backoff)
+---
 
-Dọn dẹp listener khi unmount component
+## ⚠️ Lưu ý triển khai
+- Retry socket với exponential backoff  
+- Cleanup listener khi component unmount  
+- Chỉ update symbol đang xem để tối ưu hiệu năng  
 
-Cập nhật state cục bộ tối ưu (chỉ update symbol đang xem)
+---
 
-Các phần khác (Auth, UI, Admin, Tests, CI/CD)
-Auth
+## 🔐 Auth Flow
+- Đăng ký / đăng nhập bằng JWT  
+- Middleware bảo vệ route theo vai trò  
+- Lưu token trong cookie httpOnly (ưu tiên) hoặc localStorage  
 
-Đăng ký / đăng nhập (JWT)
+---
 
-Middleware bảo vệ route theo role
+## 👤 User Features
+- **Dashboard**: danh sách tài sản + giá realtime  
+- **Trade Page**: chart, đặt lệnh, chọn hướng & thời gian  
+- **Wallet**: số dư, lịch sử giao dịch  
+- **History**: thống kê kết quả  
 
-Lưu token bằng cookie httpOnly hoặc localStorage + refresh flow
+---
 
-User
+## 🛠️ Admin Features
+- CRUD Assets (symbol, profit rate, v.v.)
+- Quản lý Users & Orders
+- Dashboard thống kê volume, P/L
 
-Dashboard hiển thị danh sách assets và giá realtime
+---
 
-Trade page có Chart, TradePanel (đặt lệnh, chọn direction, duration)
+## 🧪 Testing & CI/CD
+- Unit test: `TradePanel`, `AssetCard`
+- Integration test: order flow (mock bằng msw)
+- Snapshot: `ChartContainer`
+- CI/CD: GitHub Actions → lint + test + build → Vercel
 
-Wallet page (balance, lịch sử)
+---
 
-History page (positions, thống kê winrate)
+## ✅ Task Breakdown (Issue-ready)
+1. Setup repo, ESLint, Prettier, Vitest  
+2. Auth flow (login/register)  
+3. Assets list + price realtime (socket)  
+4. Trade page + chart + validation  
+5. Order flow (REST + realtime update)  
+6. Wallet & History page  
+7. Admin CRUD + dashboard  
+8. Tests + deploy  
 
-Thông báo kết quả realtime
+---
 
-Admin
+## ☑️ Checklist Deliver
+- [ ] Responsive hoàn chỉnh  
+- [ ] Socket reconnect ổn định  
+- [ ] Error handling đầy đủ  
+- [ ] Tests pass  
+- [ ] Env rõ ràng (`NEXT_PUBLIC_API_BASE`, `NEXT_PUBLIC_WS_URL`)  
 
-CRUD Assets (symbol, min/max, profitPercentage…)
+---
 
-Quản lý Users, Orders
-
-Thống kê hệ thống (volume, profit/loss)
-
-CI/CD
-
-GitHub Actions: lint → test → build → deploy (Vercel)
-
-Env: NEXT_PUBLIC_API_BASE, NEXT_PUBLIC_WS_URL
-
-Validation & UX
-
-Kiểm tra min/max trade amount
-
-Disable trade nếu asset không khả dụng
-
-Skeleton loading / modal xác nhận
-
-Tests
-
-Unit: TradePanel, AssetCard
-
-Integration: order flow (msw)
-
-Snapshot: chart container
-
-Tasks phân bước (Issue-ready)
-
-Setup repo, ESLint, Prettier, Vitest
-
-Auth flow (login/register)
-
-Assets list + price realtime (WebSocket)
-
-Trade page + Chart + validation
-
-Order flow (POST /api/orders + realtime status)
-
-Wallet & History page
-
-Admin CRUD + dashboard
-
-Tests + deploy
-
-Checklist trước deliver
-
- Responsive hoàn chỉnh
-
- Realtime ổn định khi reconnect
-
- Error handling đầy đủ
-
- Tests pass
-
- Env variables rõ ràng
-
-Ghi chú
-
-Nếu backend cung cấp secondsData, nên render chart realtime từng giây.
-
-Sử dụng decimal.js hoặc BigNumber để tính toán số tiền.
-
-Kết quả thắng/thua chỉ hiển thị, không tính toán trên frontend.
+## 📝 Notes
+- Sử dụng `decimal.js` để tránh lỗi số thực  
+- Không tính thắng/thua ở frontend  
+- Có thể thêm `useAssets` store mẫu để cập nhật realtime
