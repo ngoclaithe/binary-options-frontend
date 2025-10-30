@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { useAppDispatch } from "./useAppSelector";
+import { useAppDispatch } from "./useAppDispatch";
 import {
   setPriceUpdate,
   setPriceError,
