@@ -1,38 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { registerUser, clearError } from "../../../store/slices/authSlice";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/v1/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password, name }),
-      });
-      if (!res.ok) throw new Error("Đăng ký thất bại");
-      window.location.href = "/(auth)/login";
-    } catch (e: any) {
-      setError(e?.message || "Có lỗi xảy ra");
-    } finally {
-      setLoading(false);
+    const result = await dispatch(registerUser({ email, password, name }));
+    if (result.payload) {
+      router.push("/(auth)/login");
     }
   };
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-6">
-      <form onSubmit={onSubmit} className="w-full max-w-md rounded-2xl border border-black/10 dark:border-white/10 p-6">
+      <form
+        onSubmit={onSubmit}
+        className="w-full max-w-md rounded-2xl border border-black/10 dark:border-white/10 p-6"
+      >
         <h1 className="text-2xl font-bold mb-6">Đăng ký</h1>
         <div className="space-y-4">
           <div>
@@ -64,7 +59,18 @@ export default function RegisterPage() {
               className="w-full rounded-lg border border-black/10 dark:border-white/10 px-3 py-2 bg-transparent"
             />
           </div>
-          {error && <div className="text-sm text-red-500">{error}</div>}
+          {error && (
+            <div className="text-sm text-red-500 flex justify-between items-center">
+              <span>{error}</span>
+              <button
+                type="button"
+                onClick={() => dispatch(clearError())}
+                className="text-xs underline"
+              >
+                Clear
+              </button>
+            </div>
+          )}
           <button
             type="submit"
             disabled={loading}
@@ -73,7 +79,10 @@ export default function RegisterPage() {
             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
           </button>
           <div className="text-sm text-center">
-            Đã có tài khoản? <Link className="underline" href="/(auth)/login">Đăng nhập</Link>
+            Đã có tài khoản?{" "}
+            <Link className="underline" href="/(auth)/login">
+              Đăng nhập
+            </Link>
           </div>
         </div>
       </form>

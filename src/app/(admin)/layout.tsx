@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../hooks/useAuth";
-import DashboardLayout from "../../components/layout/DashboardLayout";
 
-export default function AuthLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,10 +13,10 @@ export default function AuthLayout({
   const { user, loading, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/(auth)/login");
+    if (!loading && (!isAuthenticated || user?.role !== "admin")) {
+      router.push("/");
     }
-  }, [loading, isAuthenticated, router]);
+  }, [loading, isAuthenticated, user, router]);
 
   if (loading) {
     return (
@@ -30,9 +29,9 @@ export default function AuthLayout({
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || user?.role !== "admin") {
     return null;
   }
 
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return children;
 }

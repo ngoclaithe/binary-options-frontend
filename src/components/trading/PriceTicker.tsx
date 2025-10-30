@@ -1,44 +1,38 @@
 "use client";
 
-import { useEffect } from "react";
-import { usePriceFeed } from "../../hooks/usePriceFeed";
+import type { PriceData } from "../../types/price.types";
 
 interface PriceTickerProps {
-  symbols: string[];
+  price: PriceData;
+  animated?: boolean;
 }
 
-export default function PriceTicker({ symbols }: PriceTickerProps) {
-  const { connected, list, subscribe, unsubscribe } = usePriceFeed();
-
-  useEffect(() => {
-    if (symbols?.length) subscribe(symbols);
-    return () => {
-      if (symbols?.length) unsubscribe(symbols);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [symbols?.join(",")]);
+export default function PriceTicker({ price, animated = true }: PriceTickerProps) {
+  const changePercent =
+    ((price.summary.close - price.summary.open) / price.summary.open) * 100;
+  const isUp = changePercent >= 0;
 
   return (
-    <div className="w-full">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight">Live Prices</h2>
-        <span className={`text-sm ${connected ? "text-emerald-500" : "text-gray-500"}`}>
-          {connected ? "Connected" : "Disconnected"}
-        </span>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {list.length === 0 && (
-          <div className="col-span-full text-center text-sm text-gray-500">Waiting for price data...</div>
-        )}
-        {list.map((p) => (
-          <div key={p.symbol} className="rounded-xl border border-black/10 dark:border-white/10 p-4 bg-foreground text-background">
-            <div className="flex items-center justify-between">
-              <div className="font-medium">{p.symbol}</div>
-              <div className="text-xs opacity-80">{new Date(p.timestamp).toLocaleTimeString()}</div>
-            </div>
-            <div className="mt-2 text-2xl font-bold tabular-nums">{p.price.toFixed(5)}</div>
-          </div>
-        ))}
+    <div className={`${animated ? "animate-pulse" : ""}`}>
+      <div className="flex justify-between items-baseline">
+        <div>
+          <p className="text-xs opacity-70 mb-1">{price.symbol}</p>
+          <p className="text-2xl font-bold tabular-nums">
+            {price.summary.close.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </div>
+        <div className={`text-right ${isUp ? "text-green-600" : "text-red-600"}`}>
+          <p className="text-sm font-semibold">
+            {isUp ? "+" : ""}
+            {changePercent.toFixed(2)}%
+          </p>
+          <p className="text-xs opacity-70">
+            {new Date(price.minuteTime).toLocaleTimeString()}
+          </p>
+        </div>
       </div>
     </div>
   );
