@@ -118,11 +118,7 @@ export default function TradingPage() {
                 <TimeframeSelector selected={timeframe} onSelect={(tf) => setTimeframe(tf)} />
               </div>
 
-              <TradingChart
-                priceData={currentPrice}
-                chartType="area"
-                height={350}
-              />
+              <TradingChart priceData={currentPrice} chartType="area" height={350} />
             </div>
           </div>
 
@@ -143,9 +139,7 @@ export default function TradingPage() {
             <h2 className="text-lg font-semibold mb-4">Recent Trades</h2>
 
             {closedOrders.length === 0 ? (
-              <div className="text-center py-8 text-sm opacity-70">
-                No closed orders yet
-              </div>
+              <div className="text-center py-8 text-sm opacity-70">No closed orders yet</div>
             ) : (
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {closedOrders.slice(0, 10).map((order) => (
@@ -173,11 +167,7 @@ export default function TradingPage() {
                     <div className="flex justify-between text-xs opacity-70">
                       <span>${order.amount}</span>
                       <span>
-                        {order.profit
-                          ? `+$${order.profit}`
-                          : order.loss
-                            ? `-$${order.loss}`
-                            : "-"}
+                        {order.profit ? `+$${order.profit}` : order.loss ? `-$${order.loss}` : "-"}
                       </span>
                     </div>
                   </div>
