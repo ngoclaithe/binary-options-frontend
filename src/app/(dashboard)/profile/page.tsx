@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useAuth } from "../../../hooks/useAuth";
+import { getAuthHeaders } from "../../../lib/auth";
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
@@ -10,18 +11,13 @@ export default function ProfilePage() {
     email: user?.email || "",
   });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(
-    null
-  );
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    },
-    []
-  );
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +28,7 @@ export default function ProfilePage() {
       // This would call a profile update API
       const response = await fetch("/api/v1/users/profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(formData),
       });

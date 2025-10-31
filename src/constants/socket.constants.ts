@@ -14,13 +14,13 @@ export const SOCKET_PATH = "/socket.io";
 export const SOCKET_NAMESPACE = "/price-feed";
 
 export const SOCKET_CONFIG = {
-  transports: ["websocket"],
+  transports: ["websocket"] as string[],
   withCredentials: true,
   autoConnect: true,
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   reconnectionAttempts: 5,
-} as const;
+};
 
 export const DEFAULT_PRICE_SYMBOLS = ["BTCUSDT", "ETHUSDT"] as const;

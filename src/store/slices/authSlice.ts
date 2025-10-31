@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState, User, LoginPayload, RegisterPayload } from "../../types/auth.types";
 import { API_ENDPOINTS } from "../../constants/api.constants";
+import { getAuthHeaders } from "../../lib/auth";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001";
 
@@ -10,7 +11,7 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGIN}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(payload),
       });
@@ -34,7 +35,7 @@ export const registerUser = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.REGISTER}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(payload),
       });
@@ -58,6 +59,7 @@ export const fetchCurrentUser = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.ME}`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
 
       if (!res.ok) {
@@ -72,20 +74,18 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  "auth/logoutUser",
-  async (_, { rejectWithValue }) => {
-    try {
-      await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGOUT}`, {
-        method: "POST",
-        credentials: "include",
-      });
-      return null;
-    } catch (error: any) {
-      return rejectWithValue(error.message || "Logout failed");
-    }
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { rejectWithValue }) => {
+  try {
+    await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGOUT}`, {
+      method: "POST",
+      credentials: "include",
+      headers: getAuthHeaders(),
+    });
+    return null;
+  } catch (error: any) {
+    return rejectWithValue(error.message || "Logout failed");
   }
-);
+});
 
 const initialState: AuthState = {
   user: null,
