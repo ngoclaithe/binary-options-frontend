@@ -39,7 +39,7 @@ export default function Header() {
           Binary Options
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-          <Link className="hover:underline" href="/(dashboard)/trading">
+          <Link className="hover:underline" href="/trading">
             Trading
           </Link>
 
@@ -69,19 +69,19 @@ export default function Header() {
                       <div className="flex gap-2">
                         <Link
                           className="flex-1 text-center rounded-full px-3 py-1 bg-foreground text-background text-sm"
-                          href="/(dashboard)/wallet"
+                          href="/wallet"
                         >
                           Deposit
                         </Link>
                         <Link
                           className="flex-1 text-center rounded-full px-3 py-1 border border-black/10 dark:border-white/10 text-sm"
-                          href="/(dashboard)/wallet"
+                          href="/wallet"
                         >
                           Withdraw
                         </Link>
                       </div>
                       <div className="text-xs text-gray-500">
-                        <Link href="/(dashboard)/wallet" className="underline">
+                        <Link href="/wallet" className="underline">
                           View wallet
                         </Link>
                       </div>
@@ -97,12 +97,12 @@ export default function Header() {
           ) : null}
 
           {!user && !loading ? (
-            <Link className="hover:underline" href="/(auth)/login">
+            <Link className="hover:underline" href="/login">
               Login
             </Link>
           ) : user && !loading ? (
             <div className="flex items-center gap-2">
-              <Link className="hover:underline" href="/(dashboard)/profile">
+              <Link className="hover:underline" href="/profile">
                 Profile
               </Link>
               <button
