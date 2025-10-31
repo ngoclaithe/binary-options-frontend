@@ -20,7 +20,13 @@ export default function RegisterPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await dispatch(
-      registerUser({ email, username, password, fullName: fullName || undefined, phone: phone || undefined })
+      registerUser({
+        email,
+        username,
+        password,
+        fullName: fullName || undefined,
+        phone: phone || undefined,
+      })
     );
     if ((result as any).payload) {
       router.push("/login");
