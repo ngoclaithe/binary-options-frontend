@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/(dashboard)/trading");
+      router.push("/trading");
     }
   }, [isAuthenticated, router]);
 
@@ -73,7 +73,7 @@ export default function LoginPage() {
           </button>
           <div className="text-sm text-center">
             Chưa có tài khoản?{" "}
-            <Link className="underline" href="/(auth)/register">
+            <Link className="underline" href="/register">
               Đăng ký
             </Link>
           </div>
