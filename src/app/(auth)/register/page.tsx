@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
@@ -10,14 +10,25 @@ export default function RegisterPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.auth);
+
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await dispatch(registerUser({ email, password, name }));
-    if (result.payload) {
+    const result = await dispatch(
+      registerUser({
+        email,
+        username,
+        password,
+        fullName: fullName || undefined,
+        phone: phone || undefined,
+      })
+    );
+    if ((result as any).payload) {
       router.push("/login");
     }
   };
@@ -31,11 +42,20 @@ export default function RegisterPage() {
         <h1 className="text-2xl font-bold mb-6">Đăng ký</h1>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm mb-1">Họ tên</label>
+            <label className="block text-sm mb-1">Họ tên (tuỳ chọn)</label>
             <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              maxLength={100}
+              className="w-full rounded-lg border border-black/10 dark:border-white/10 px-3 py-2 bg-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Số điện thoại (tuỳ chọn)</label>
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              pattern="^[0-9+\\-\\s()]+$"
               className="w-full rounded-lg border border-black/10 dark:border-white/10 px-3 py-2 bg-transparent"
             />
           </div>
@@ -50,12 +70,28 @@ export default function RegisterPage() {
             />
           </div>
           <div>
+            <label className="block text-sm mb-1">Tên đăng nhập</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              minLength={3}
+              maxLength={20}
+              pattern="^[a-zA-Z0-9_]+$"
+              className="w-full rounded-lg border border-black/10 dark:border-white/10 px-3 py-2 bg-transparent"
+            />
+          </div>
+          <div>
             <label className="block text-sm mb-1">Mật khẩu</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
+              maxLength={50}
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,50}$"
               className="w-full rounded-lg border border-black/10 dark:border-white/10 px-3 py-2 bg-transparent"
             />
           </div>
