@@ -7,8 +7,13 @@ import { useWallet } from "../../hooks/useWallet";
 
 export default function Header() {
   const { user, loading, signOut } = useAuth();
-  const { balance, currency, loadBalance, loading: walletLoading, error: walletError } =
-    useWallet();
+  const {
+    balance,
+    currency,
+    loadBalance,
+    loading: walletLoading,
+    error: walletError,
+  } = useWallet();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -51,7 +56,9 @@ export default function Header() {
               >
                 Wallet
                 <span className="text-xs opacity-70">
-                  {balance ? ` ${balance.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${currency}` : ""}
+                  {balance
+                    ? ` ${balance.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${currency}`
+                    : ""}
                 </span>
               </button>
 
@@ -63,8 +70,7 @@ export default function Header() {
                     <div className="space-y-3">
                       <div className="text-xs text-gray-600">Available</div>
                       <div className="text-lg font-semibold tabular-nums">
-                        {balance.toLocaleString(undefined, { maximumFractionDigits: 2 })}{" "}
-                        {currency}
+                        {balance.toLocaleString(undefined, { maximumFractionDigits: 2 })} {currency}
                       </div>
                       <div className="flex gap-2">
                         <Link

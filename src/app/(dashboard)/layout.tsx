@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../hooks/useAuth";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, loading, isAuthenticated } = useAuth();
 
