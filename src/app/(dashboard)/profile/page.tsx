@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useAuth } from "../../../hooks/useAuth";
+import { getAuthHeaders } from "../../../lib/auth";
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
@@ -32,7 +33,7 @@ export default function ProfilePage() {
       // This would call a profile update API
       const response = await fetch("/api/v1/users/profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(formData),
       });
