@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Trash2, Shield } from "lucide-react";
+import { getAuthHeaders } from "../../../../lib/auth";
 
 interface User {
   id: string;
@@ -22,6 +23,7 @@ export default function AdminUsersPage() {
         // This would call an API to fetch users
         const response = await fetch("/api/v1/admin/users", {
           credentials: "include",
+          headers: getAuthHeaders(),
         });
         if (response.ok) {
           const data = await response.json();
@@ -41,7 +43,7 @@ export default function AdminUsersPage() {
     try {
       const response = await fetch(`/api/v1/admin/users/${userId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify({ role: newRole }),
       });
@@ -61,6 +63,7 @@ export default function AdminUsersPage() {
       const response = await fetch(`/api/v1/admin/users/${userId}`, {
         method: "DELETE",
         credentials: "include",
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
