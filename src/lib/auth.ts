@@ -2,10 +2,21 @@ import { API_ENDPOINTS } from "../constants/api.constants";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001";
 
+export function getAuthHeaders(base?: HeadersInit): HeadersInit {
+  const token = getTokenFromCookie("token");
+  const headers: Record<string, string> = {};
+  if (token) headers.Authorization = `Bearer ${token}`;
+  if (base) {
+    const baseObj = base as Record<string, string>;
+    for (const k in baseObj) headers[k] = baseObj[k];
+  }
+  return headers;
+}
+
 export async function loginUser(email: string, password: string) {
   const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGIN}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: getAuthHeaders({ "Content-Type": "application/json" }),
     credentials: "include",
     body: JSON.stringify({ email, password }),
   });
@@ -25,7 +36,7 @@ export async function registerUser(
 ) {
   const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.REGISTER}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: getAuthHeaders({ "Content-Type": "application/json" }),
     credentials: "include",
     body: JSON.stringify({ email, password, name }),
   });
@@ -41,6 +52,7 @@ export async function registerUser(
 export async function getCurrentUser() {
   const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.ME}`, {
     credentials: "include",
+    headers: getAuthHeaders(),
   });
 
   if (!res.ok) {
@@ -55,6 +67,7 @@ export async function logoutUser() {
   const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGOUT}`, {
     method: "POST",
     credentials: "include",
+    headers: getAuthHeaders(),
   });
 
   if (!res.ok) {
