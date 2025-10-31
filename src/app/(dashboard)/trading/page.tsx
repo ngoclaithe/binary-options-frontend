@@ -75,13 +75,39 @@ export default function TradingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="rounded-lg border border-black/10 dark:border-white/10 p-6">
-              <label className="block text-sm font-medium mb-3">Select Asset</label>
-              <AssetSelector
-                assets={assets}
-                selectedSymbol={selectedSymbol}
-                onSelect={setSelectedSymbol}
-                loading={assetsLoading}
-              />
+              <label className="block text-sm font-medium mb-3">Assets</label>
+              <div className="flex gap-3 flex-wrap">
+                {[
+                  ["BTC", "Bitcoin"],
+                  ["ETH", "Ethereum"],
+                  ["USDT", "TetherUS"],
+                  ["XRP", "XRP"],
+                  ["SOL", "Solana"],
+                  ["USDC", "USDC"],
+                  ["TRX", "TRON"],
+                  ["DOGE", "Dogecoin"],
+                  ["ADA", "Cardano"],
+                  ["XLM", "Stellar Lumens"],
+                ].map(([code, name]) => {
+                  // try to find a matching asset symbol from loaded assets, fallback to code+USDT
+                  const found = assets.find((a) => a.symbol.startsWith(String(code)));
+                  const symbol = found ? found.symbol : `${String(code)}USDT`;
+                  const isSelected = symbol === selectedSymbol;
+                  return (
+                    <button
+                      key={String(code)}
+                      type="button"
+                      onClick={() => setSelectedSymbol(symbol)}
+                      className={`px-3 py-2 rounded-full border text-sm font-medium ${isSelected ? "bg-foreground text-background" : "bg-transparent"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">{code}</span>
+                        <span className="opacity-70 text-xs">{name}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <PriceDisplay price={currentPrice} symbol={selectedSymbol} />
@@ -89,7 +115,7 @@ export default function TradingPage() {
             <div>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-3">Timeframe</label>
-                <TimeframeSelector selected={timeframe} onSelect={setTimeframe} />
+                <TimeframeSelector selected={timeframe} onSelect={(tf) => setTimeframe(tf)} />
               </div>
 
               <TradingChart
