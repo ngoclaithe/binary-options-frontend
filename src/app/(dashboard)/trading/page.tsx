@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { useTrading } from "../../../hooks/useTrading";
 import { usePriceFeed } from "../../../hooks/usePriceFeed";
 import { DEFAULT_PRICE_SYMBOLS } from "../../../constants/socket.constants";
-import AssetSelector from "../../../components/trading/AssetSelector";
 import TimeframeSelector from "../../../components/trading/TimeframeSelector";
 import PriceDisplay from "../../../components/trading/PriceDisplay";
 import TradingChart from "../../../components/trading/TradingChart";
