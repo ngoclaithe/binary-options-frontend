@@ -16,7 +16,7 @@ export default function AssetCard({ asset, price }: AssetCardProps) {
   const isUp = changePercent >= 0;
 
   return (
-    <Link href={`/(dashboard)/trading?symbol=${asset.symbol}`}>
+    <Link href={`/trading?symbol=${asset.symbol}`}>
       <div className="rounded-lg border border-black/10 dark:border-white/10 p-4 hover:shadow-lg transition-shadow cursor-pointer">
         <div className="flex justify-between items-start mb-3">
           <div>
