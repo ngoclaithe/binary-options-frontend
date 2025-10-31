@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { TradingState, Order, Asset } from "../../types/trading.types";
 import { API_ENDPOINTS } from "../../constants/api.constants";
+import { getAuthHeaders } from "../../lib/auth";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001";
 
@@ -10,6 +11,7 @@ export const fetchAssets = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.TRADING.ASSETS}`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Failed to fetch assets");
       const data = await res.json();
@@ -26,6 +28,7 @@ export const fetchOrders = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.TRADING.ORDERS}`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Failed to fetch orders");
       const data = await res.json();
@@ -42,7 +45,7 @@ export const createOrder = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.TRADING.CREATE_ORDER}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
         credentials: "include",
         body: JSON.stringify(payload),
       });
