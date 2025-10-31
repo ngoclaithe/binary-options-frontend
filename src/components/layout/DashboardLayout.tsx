@@ -9,11 +9,11 @@ interface DashboardLayoutProps {
 }
 
 const navItems = [
-  { label: "Trading", href: "/(dashboard)/trading" },
-  { label: "Dashboard", href: "/(dashboard)/dashboard" },
-  { label: "History", href: "/(dashboard)/history" },
-  { label: "Wallet", href: "/(dashboard)/wallet" },
-  { label: "Profile", href: "/(dashboard)/profile" },
+  { label: "Trading", href: "/trading" },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "History", href: "/history" },
+  { label: "Wallet", href: "/wallet" },
+  { label: "Profile", href: "/profile" },
 ];
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {

@@ -18,7 +18,7 @@ export default function RegisterPage() {
     e.preventDefault();
     const result = await dispatch(registerUser({ email, password, name }));
     if (result.payload) {
-      router.push("/(auth)/login");
+      router.push("/login");
     }
   };
 
@@ -80,7 +80,7 @@ export default function RegisterPage() {
           </button>
           <div className="text-sm text-center">
             Đã có tài khoản?{" "}
-            <Link className="underline" href="/(auth)/login">
+            <Link className="underline" href="/login">
               Đăng nhập
             </Link>
           </div>
