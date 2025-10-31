@@ -74,21 +74,18 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  "auth/logoutUser",
-  async (_, { rejectWithValue }) => {
-    try {
-      await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGOUT}`, {
-        method: "POST",
-        credentials: "include",
-        headers: getAuthHeaders(),
-      });
-      return null;
-    } catch (error: any) {
-      return rejectWithValue(error.message || "Logout failed");
-    }
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { rejectWithValue }) => {
+  try {
+    await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.LOGOUT}`, {
+      method: "POST",
+      credentials: "include",
+      headers: getAuthHeaders(),
+    });
+    return null;
+  } catch (error: any) {
+    return rejectWithValue(error.message || "Logout failed");
   }
-);
+});
 
 const initialState: AuthState = {
   user: null,

@@ -29,11 +29,7 @@ export async function loginUser(email: string, password: string) {
   return res.json();
 }
 
-export async function registerUser(
-  email: string,
-  password: string,
-  name: string
-) {
+export async function registerUser(email: string, password: string, name: string) {
   const res = await fetch(`${API_BASE}${API_ENDPOINTS.AUTH.REGISTER}`, {
     method: "POST",
     headers: getAuthHeaders({ "Content-Type": "application/json" }),

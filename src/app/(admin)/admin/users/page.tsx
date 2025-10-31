@@ -124,9 +124,7 @@ export default function AdminUsersPage() {
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-sm opacity-70">
-                        {user.lastLogin
-                          ? new Date(user.lastLogin).toLocaleString()
-                          : "Never"}
+                        {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : "Never"}
                       </td>
                       <td className="px-6 py-4 text-center">
                         <button
