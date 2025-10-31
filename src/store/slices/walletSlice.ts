@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { WalletState, Transaction } from "../../types/wallet.types";
 import { API_ENDPOINTS } from "../../constants/api.constants";
+import { getAuthHeaders } from "../../lib/auth";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3001";
 
@@ -10,6 +11,7 @@ export const fetchBalance = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.WALLET.BALANCE}`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Failed to fetch balance");
       const data = await res.json();
@@ -26,6 +28,7 @@ export const fetchTransactions = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE}${API_ENDPOINTS.WALLET.TRANSACTIONS}`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (!res.ok) throw new Error("Failed to fetch transactions");
       const data = await res.json();
