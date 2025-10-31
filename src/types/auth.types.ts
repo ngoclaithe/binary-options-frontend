@@ -14,12 +14,14 @@ export interface AuthResponse {
 
 export interface RegisterPayload {
   email: string;
+  username: string;
   password: string;
-  name: string;
+  fullName?: string;
+  phone?: string;
 }
 
 export interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }
 
