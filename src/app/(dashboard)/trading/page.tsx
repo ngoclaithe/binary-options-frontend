@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { useTrading } from "../../../hooks/useTrading";
 import { usePriceFeed } from "../../../hooks/usePriceFeed";
 import { DEFAULT_PRICE_SYMBOLS } from "../../../constants/socket.constants";
-import AssetSelector from "../../../components/trading/AssetSelector";
 import TimeframeSelector from "../../../components/trading/TimeframeSelector";
 import PriceDisplay from "../../../components/trading/PriceDisplay";
 import TradingChart from "../../../components/trading/TradingChart";
@@ -76,13 +75,39 @@ export default function TradingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="rounded-lg border border-black/10 dark:border-white/10 p-6">
-              <label className="block text-sm font-medium mb-3">Select Asset</label>
-              <AssetSelector
-                assets={assets}
-                selectedSymbol={selectedSymbol}
-                onSelect={setSelectedSymbol}
-                loading={assetsLoading}
-              />
+              <label className="block text-sm font-medium mb-3">Assets</label>
+              <div className="flex gap-3 flex-wrap">
+                {[
+                  ["BTC", "Bitcoin"],
+                  ["ETH", "Ethereum"],
+                  ["USDT", "TetherUS"],
+                  ["XRP", "XRP"],
+                  ["SOL", "Solana"],
+                  ["USDC", "USDC"],
+                  ["TRX", "TRON"],
+                  ["DOGE", "Dogecoin"],
+                  ["ADA", "Cardano"],
+                  ["XLM", "Stellar Lumens"],
+                ].map(([code, name]) => {
+                  // try to find a matching asset symbol from loaded assets, fallback to code+USDT
+                  const found = assets.find((a) => a.symbol.startsWith(String(code)));
+                  const symbol = found ? found.symbol : `${String(code)}USDT`;
+                  const isSelected = symbol === selectedSymbol;
+                  return (
+                    <button
+                      key={String(code)}
+                      type="button"
+                      onClick={() => setSelectedSymbol(symbol)}
+                      className={`px-3 py-2 rounded-full border text-sm font-medium ${isSelected ? "bg-foreground text-background" : "bg-transparent"}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">{code}</span>
+                        <span className="opacity-70 text-xs">{name}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <PriceDisplay price={currentPrice} symbol={selectedSymbol} />
@@ -90,14 +115,10 @@ export default function TradingPage() {
             <div>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-3">Timeframe</label>
-                <TimeframeSelector selected={timeframe} onSelect={setTimeframe} />
+                <TimeframeSelector selected={timeframe} onSelect={(tf) => setTimeframe(tf)} />
               </div>
 
-              <TradingChart
-                priceData={currentPrice}
-                chartType="area"
-                height={350}
-              />
+              <TradingChart priceData={currentPrice} chartType="area" height={350} />
             </div>
           </div>
 
@@ -118,9 +139,7 @@ export default function TradingPage() {
             <h2 className="text-lg font-semibold mb-4">Recent Trades</h2>
 
             {closedOrders.length === 0 ? (
-              <div className="text-center py-8 text-sm opacity-70">
-                No closed orders yet
-              </div>
+              <div className="text-center py-8 text-sm opacity-70">No closed orders yet</div>
             ) : (
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {closedOrders.slice(0, 10).map((order) => (
@@ -148,11 +167,7 @@ export default function TradingPage() {
                     <div className="flex justify-between text-xs opacity-70">
                       <span>${order.amount}</span>
                       <span>
-                        {order.profit
-                          ? `+$${order.profit}`
-                          : order.loss
-                            ? `-$${order.loss}`
-                            : "-"}
+                        {order.profit ? `+$${order.profit}` : order.loss ? `-$${order.loss}` : "-"}
                       </span>
                     </div>
                   </div>
