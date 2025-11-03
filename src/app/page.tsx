@@ -79,7 +79,7 @@ export default function Home() {
           <div className="step-card">
             <div className="step-badge bg-rose-500">2</div>
             <h3 className="step-title">Ký quỹ</h3>
-            <p className="step-text">Nạp bằng nhi���u loại tiền điện tử phổ biến.</p>
+            <p className="step-text">Nạp bằng nhiều loại tiền điện tử phổ biến.</p>
           </div>
           <div className="step-card">
             <div className="step-badge bg-emerald-500">3</div>
