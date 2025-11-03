@@ -7,10 +7,10 @@ export default function Home() {
         <div className="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-24 lg:pt-28 lg:pb-28">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-white">
             It&apos;s <span className="accent-text">simple</span> to become a pro
-            <br className="hidden md:block" /> trader on Crownex
+            <br className="hidden md:block" /> trader on BrotherX
           </h1>
           <p className="mt-5 max-w-2xl text-base md:text-lg text-white/70">
-            Tại Crownex, chúng tôi cố gắng làm cho quá trình giao dịch trở nên đơn giản nhất có thể
+            Tại BrotherX, chúng tôi cố gắng làm cho quá trình giao dịch trở nên đơn giản nhất có thể
             để bất kỳ ai, bất kể kinh nghiệm thế nào, đều có thể bắt đầu kiếm tiền.
           </p>
           <div className="mt-8 flex items-center gap-4 flex-wrap">
@@ -32,7 +32,7 @@ export default function Home() {
       {/* Features grid */}
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center">
-          <p className="text-sm tracking-widest uppercase text-foreground/60">Crownex</p>
+          <p className="text-sm tracking-widest uppercase text-foreground/60">BrotherX</p>
           <h2 className="mt-2 text-3xl md:text-5xl font-extrabold">
             Nền tảng được xây dựng <span className="accent-text">Trên sự đột phá</span>
           </h2>
@@ -50,7 +50,7 @@ export default function Home() {
             <div className="feature-icon">💸</div>
             <h3 className="feature-title">Giới thiệu & Kiếm tiền</h3>
             <p className="feature-text">
-              Giới thiệu cho bạn bè và phát triển cùng nhau tại Crownex.
+              Giới thiệu cho bạn bè và phát triển cùng nhau tại BrotherX.
             </p>
           </div>
           <div className="feature-card">
@@ -79,7 +79,7 @@ export default function Home() {
           <div className="step-card">
             <div className="step-badge bg-rose-500">2</div>
             <h3 className="step-title">Ký quỹ</h3>
-            <p className="step-text">Nạp bằng nhiều loại tiền điện tử phổ biến.</p>
+            <p className="step-text">Nạp bằng nhi���u loại tiền điện tử phổ biến.</p>
           </div>
           <div className="step-card">
             <div className="step-badge bg-emerald-500">3</div>
@@ -97,7 +97,7 @@ export default function Home() {
           <span className="accent-text">Mọi lúc</span> bạn cần.
         </h2>
         <p className="mt-4 text-foreground/70 max-w-2xl mx-auto">
-          Mọi người đều có thể kiếm thu nhập bền vững với Crownex.
+          Mọi người đều có thể kiếm thu nhập bền vững với BrotherX.
         </p>
         <div className="mt-8">
           <a href="/register" className="btn-accent">

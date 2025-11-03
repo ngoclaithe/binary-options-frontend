@@ -31,7 +31,12 @@ body {
 
 /* Homepage styling */
 .home-root {
-  background: var(--background);
+  background: #0d0f12;
+  color: #fff;
+}
+.auth-screen {
+  background: #0d0f12;
+  color: #fff;
 }
 .hero-section {
   background: #0d0f12;

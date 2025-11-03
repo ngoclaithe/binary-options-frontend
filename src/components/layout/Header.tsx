@@ -41,12 +41,9 @@ export default function Header() {
     <header className="sticky top-0 z-20 border-b border-black/10 dark:border-white/10 backdrop-blur bg-background/80">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link href="/" className="font-semibold">
-          CROWNEX
+          BrotherX
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-          <Link className="hover:underline" href="/trading">
-            Trading
-          </Link>
 
           {user && !loading ? (
             <div className="relative" ref={containerRef}>
