@@ -14,8 +14,12 @@ export default function Home() {
             để bất kỳ ai, bất kể kinh nghiệm thế nào, đều có thể bắt đầu kiếm tiền.
           </p>
           <div className="mt-8 flex items-center gap-4 flex-wrap">
-            <a href="/register" className="btn-accent">Bắt đầu miễn phí</a>
-            <a href="/trading" className="btn-outline">Giao dịch trực tiếp</a>
+            <a href="/register" className="btn-accent">
+              Bắt đầu miễn phí
+            </a>
+            <a href="/trading" className="btn-outline">
+              Giao dịch trực tiếp
+            </a>
           </div>
           <div className="mt-14 flex items-center gap-8 opacity-80 logos-row">
             <span className="partner-logo">tether</span>
@@ -38,7 +42,8 @@ export default function Home() {
             <div className="feature-icon">⚖️</div>
             <h3 className="feature-title">Ổn định & An toàn</h3>
             <p className="feature-text">
-              Nền tảng của chúng tôi rất ổn định và có thể truy cập trên mọi nơi trên thế giới. Chúng tôi bảo vệ tài sản của bạn bằng các biện pháp bảo mật tốt nhất.
+              Nền tảng của chúng tôi rất ổn định và có thể truy cập trên mọi nơi trên thế giới.
+              Chúng tôi bảo vệ tài sản của bạn bằng các biện pháp bảo mật tốt nhất.
             </p>
           </div>
           <div className="feature-card">
@@ -67,7 +72,9 @@ export default function Home() {
           <div className="step-card">
             <div className="step-badge bg-purple-600">1</div>
             <h3 className="step-title">Đăng ký</h3>
-            <p className="step-text">Sử dụng địa chỉ email của bạn và tạo một tài khoản miễn phí.</p>
+            <p className="step-text">
+              Sử dụng địa chỉ email của bạn và tạo một tài khoản miễn phí.
+            </p>
           </div>
           <div className="step-card">
             <div className="step-badge bg-rose-500">2</div>
@@ -93,7 +100,9 @@ export default function Home() {
           Mọi người đều có thể kiếm thu nhập bền vững với Crownex.
         </p>
         <div className="mt-8">
-          <a href="/register" className="btn-accent">Bắt đầu miễn phí</a>
+          <a href="/register" className="btn-accent">
+            Bắt đầu miễn phí
+          </a>
         </div>
       </section>
     </div>

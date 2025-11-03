@@ -104,8 +104,12 @@ export default function Header() {
 
           {!user && !loading ? (
             <div className="flex items-center gap-2">
-              <Link href="/register" className="btn-accent text-sm px-4 py-1.5">Đăng ký</Link>
-              <Link href="/login" className="btn-outline text-sm px-4 py-1.5">Đăng nhập</Link>
+              <Link href="/register" className="btn-accent text-sm px-4 py-1.5">
+                Đăng ký
+              </Link>
+              <Link href="/login" className="btn-outline text-sm px-4 py-1.5">
+                Đăng nhập
+              </Link>
             </div>
           ) : user && !loading ? (
             <div className="flex items-center gap-2">
