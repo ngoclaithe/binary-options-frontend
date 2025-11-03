@@ -44,7 +44,6 @@ export default function Header() {
           BrotherX
         </Link>
         <nav className="flex items-center gap-4 text-sm">
-
           {user && !loading ? (
             <div className="relative" ref={containerRef}>
               <button

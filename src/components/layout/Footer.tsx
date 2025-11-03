@@ -8,7 +8,10 @@ export default function Footer() {
           </div>
           <div>
             <div className="title">BrotherX</div>
-            <div className="subtitle" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem' }}>
+            <div
+              className="subtitle"
+              style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.875rem" }}
+            >
               Nền tảng giao dịch chuyên nghiệp
             </div>
           </div>
@@ -36,7 +39,17 @@ export default function Footer() {
         </div>
 
         <div className="language-select">
-          <select aria-label="language" defaultValue="vi" style={{ background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.06)', padding: '0.35rem 0.5rem', borderRadius: '0.375rem' }}>
+          <select
+            aria-label="language"
+            defaultValue="vi"
+            style={{
+              background: "transparent",
+              color: "#fff",
+              border: "1px solid rgba(255,255,255,0.06)",
+              padding: "0.35rem 0.5rem",
+              borderRadius: "0.375rem",
+            }}
+          >
             <option value="vi">Tiếng Việt</option>
             <option value="en">English</option>
           </select>
@@ -45,7 +58,11 @@ export default function Footer() {
 
       <div className="footer-inner">
         <div className="disclaimer">
-          Cảnh báo rủi ro: Giao dịch và đầu tư vào các tùy chọn kỹ thuật số có mức độ rủi ro đáng kể và không phù hợp với tất cả khách hàng. Vui lòng đảm bảo rằng bạn cân nhắc cẩn thận các mục tiêu đầu tư, mức độ kinh nghiệm và khả năng chịu lỗ trước khi quyết định đầu tư. Dữ liệu lịch sử không đảm bảo kết quả trong tương lai và không nên được xem là tư vấn đầu tư hoặc pháp lý.
+          Cảnh báo rủi ro: Giao dịch và đầu tư vào các tùy chọn kỹ thuật số có mức độ rủi ro đáng kể
+          và không phù hợp với tất cả khách hàng. Vui lòng đảm bảo rằng bạn cân nhắc cẩn thận các
+          mục tiêu đầu tư, mức độ kinh nghiệm và khả năng chịu lỗ trước khi quyết định đầu tư. Dữ
+          liệu lịch sử không đảm bảo kết quả trong tương lai và không nên được xem là tư vấn đầu tư
+          hoặc pháp lý.
         </div>
       </div>
     </footer>
