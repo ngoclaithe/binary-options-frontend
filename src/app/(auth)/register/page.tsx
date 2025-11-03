@@ -34,7 +34,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center p-6">
+    <div className="auth-screen min-h-[80vh] flex items-center justify-center p-6">
       <form
         onSubmit={onSubmit}
         className="w-full max-w-md rounded-2xl border border-black/10 dark:border-white/10 p-6"

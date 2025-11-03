@@ -31,7 +31,12 @@ body {
 
 /* Homepage styling */
 .home-root {
-  background: var(--background);
+  background: #0d0f12;
+  color: #fff;
+}
+.auth-screen {
+  background: #0d0f12;
+  color: #fff;
 }
 .hero-section {
   background: #0d0f12;
@@ -138,4 +143,92 @@ body {
 }
 .step-text {
   opacity: 0.7;
+}
+
+/* Ensure dark homepage and auth screens display readable text even when utilities reference text-foreground */
+.home-root [class*="text-foreground/70"] {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.home-root [class*="text-foreground/60"] {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.home-root [class*="text-foreground"] {
+  color: #fff !important;
+}
+.auth-screen input,
+.auth-screen label,
+.auth-screen .text-sm,
+.auth-screen h1,
+.auth-screen .btn-accent,
+.auth-screen .btn-outline {
+  color: #fff;
+}
+.auth-screen form {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Footer styles */
+.site-footer {
+  background: #0d0f12;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+.site-footer .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.site-footer .brand {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.site-footer .brand .logo {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 0.375rem;
+  background: linear-gradient(180deg, rgba(255, 100, 46, 0.12), rgba(255, 100, 46, 0.08));
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+.site-footer .brand .title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.125rem;
+}
+.site-footer .links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  flex: 1;
+  padding-left: 2rem;
+}
+.site-footer .links-grid h4 {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.site-footer a {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+}
+.site-footer .language-select {
+  margin-left: auto;
+}
+.site-footer .disclaimer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
