@@ -36,7 +36,8 @@ body {
   pointer-events: none; }
 .accent-text { color: var(--accent); }
 .btn-accent { background: var(--accent); color: #fff; border-radius: 9999px; padding: .625rem 1.25rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }
-.btn-outline { border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: 9999px; padding: .625rem 1.25rem; display: inline-flex; align-items: center; justify-content: center; }
+.btn-outline { border: 1px solid rgba(0,0,0,.2); color: var(--foreground); border-radius: 9999px; padding: .625rem 1.25rem; display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-color-scheme: dark) { .btn-outline { border-color: rgba(255,255,255,.2); color: #fff; } }
 .partner-logo { color: #fff; font-weight: 700; letter-spacing: .02em; text-transform: lowercase; opacity: .9; }
 
 .feature-card { border: 1px solid rgba(0,0,0,.1); border-radius: .75rem; padding: 1.25rem; background: transparent; }
