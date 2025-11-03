@@ -41,7 +41,7 @@ export default function Header() {
     <header className="sticky top-0 z-20 border-b border-black/10 dark:border-white/10 backdrop-blur bg-background/80">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link href="/" className="font-semibold">
-          Binary Options
+          CROWNEX
         </Link>
         <nav className="flex items-center gap-4 text-sm">
           <Link className="hover:underline" href="/trading">
@@ -103,9 +103,14 @@ export default function Header() {
           ) : null}
 
           {!user && !loading ? (
-            <Link className="hover:underline" href="/login">
-              Login
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href="/register" className="btn-accent text-sm px-4 py-1.5">
+                Đăng ký
+              </Link>
+              <Link href="/login" className="btn-outline text-sm px-4 py-1.5">
+                Đăng nhập
+              </Link>
+            </div>
           ) : user && !loading ? (
             <div className="flex items-center gap-2">
               <Link className="hover:underline" href="/profile">
